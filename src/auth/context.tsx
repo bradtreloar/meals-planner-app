@@ -1,7 +1,6 @@
 import React, {useContext, createContext, useCallback} from 'react';
 import * as firebase from '@app/services/firebase';
-
-type Status = 'idle' | 'pending' | 'fulfilled' | 'rejected';
+import {User} from '@app/types';
 
 export interface AuthContextState {
   isAuthenticated: boolean;

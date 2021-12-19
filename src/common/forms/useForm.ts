@@ -9,7 +9,7 @@ export type FormTouchedValues<T> = {
   [P in keyof T]?: boolean;
 };
 
-export type FormErrors<T> = {
+export type FormErrors = {
   [key: string]: string;
 };
 

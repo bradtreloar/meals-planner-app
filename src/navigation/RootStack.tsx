@@ -1,5 +1,4 @@
 import React from 'react';
-import {View} from 'react-native';
 import {StackNavigator} from '@app/App';
 import LoginScreen from '@app/auth/login/LoginScreen';
 import HomeScreen from '@app/home/HomeScreen';
