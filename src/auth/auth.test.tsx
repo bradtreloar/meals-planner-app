@@ -39,7 +39,7 @@ const AuthTestFixture = () => {
         title="Log in"
         onPress={async () => {
           try {
-            await login(testUser.email, testPassword, true);
+            await login(testUser.email, testPassword);
           } catch (loginError: any) {
             setError(loginError.message);
           }
