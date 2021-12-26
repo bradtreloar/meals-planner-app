@@ -1,7 +1,7 @@
-import {Recipe} from '@app/types';
 import {orderBy} from 'lodash';
 import React, {useMemo} from 'react';
 import {FlatList, Text, TouchableOpacity} from 'react-native';
+import {Recipe} from './store';
 
 interface RecipeListItemProps {
   recipe: Recipe;
