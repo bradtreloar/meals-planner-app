@@ -12,7 +12,6 @@ import {noop} from 'lodash';
 import {act} from 'react-test-renderer';
 import {fakeUser} from '../factory';
 jest.mock('../context');
-jest.mock('@app/services/firebase');
 jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper');
 
 afterEach(() => {

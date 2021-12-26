@@ -5,7 +5,7 @@ import faker from 'faker';
 import {AuthProvider, useAuth} from './context';
 import {fakeUser} from './factory';
 import * as firebase from '@app/firebase/auth';
-jest.mock('@app/services/firebase');
+jest.mock('@app/firebase/auth');
 
 const testUser = fakeUser();
 const testPassword = faker.random.alphaNumeric();
