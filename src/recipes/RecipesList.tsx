@@ -1,5 +1,4 @@
-import {orderBy} from 'lodash';
-import React, {useMemo} from 'react';
+import React from 'react';
 import {FlatList, Text, TouchableOpacity} from 'react-native';
 import {Recipe} from './store';
 
@@ -27,19 +26,14 @@ interface RecipeSelectListProps {
   onLongPress: (recipe: Recipe) => void;
 }
 
-const RecipeList: React.FC<RecipeSelectListProps> = ({
+const RecipesList: React.FC<RecipeSelectListProps> = ({
   recipes,
   onPress,
   onLongPress,
 }) => {
-  const sortedRecipes = useMemo(
-    () => orderBy(recipes, ['title'], ['asc']),
-    [recipes],
-  );
-
   return (
     <FlatList
-      data={sortedRecipes.map(recipe => ({
+      data={recipes.map(recipe => ({
         recipe,
         onPress,
         onLongPress,
@@ -49,4 +43,4 @@ const RecipeList: React.FC<RecipeSelectListProps> = ({
   );
 };
 
-export default RecipeList;
+export default RecipesList;
