@@ -4,10 +4,7 @@ import faker from 'faker';
 import {defaults} from 'lodash';
 
 export const fakeRecipe = (partialRecipe?: Partial<Recipe>): Recipe =>
-  defaults(
-    {
-      ...fakeEntity(),
-      title: faker.random.words(3),
-    },
-    partialRecipe,
-  );
+  defaults(partialRecipe, {
+    ...fakeEntity(),
+    title: faker.random.words(3),
+  });
