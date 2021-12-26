@@ -1,5 +1,5 @@
-import React, {useContext, createContext, useCallback} from 'react';
-import * as firebase from '@app/services/firebase';
+import React, {useContext, createContext, useCallback, useEffect} from 'react';
+import * as firebaseAuth from '@app/firebase/auth';
 import {User} from '@app/types';
 
 export interface AuthContextState {
@@ -45,7 +45,7 @@ export const AuthProvider: React.FC = ({children}) => {
    * Refreshes the user from the server.
    */
   const refreshUser = useCallback(async () => {
-    const currentUser = firebase.currentUser();
+    const currentUser = firebaseAuth.currentUser();
     setUser(currentUser);
   }, [setUser]);
 
@@ -57,7 +57,7 @@ export const AuthProvider: React.FC = ({children}) => {
    */
   const login = async (email: string, password: string) => {
     try {
-      const loggedInUser = await firebase.login(email, password);
+      const loggedInUser = await firebaseAuth.login(email, password);
       setUser(loggedInUser);
     } catch (error: any) {
       if (error.response) {
@@ -82,7 +82,7 @@ export const AuthProvider: React.FC = ({children}) => {
    */
   const logout = async () => {
     try {
-      await firebase.logout();
+      await firebaseAuth.logout();
       setUser(null);
     } catch (error: any) {
       if (error.response?.status === 403) {
@@ -96,7 +96,7 @@ export const AuthProvider: React.FC = ({children}) => {
    */
   const forgotPassword = async (email: string) => {
     try {
-      await firebase.forgotPassword(email);
+      await firebaseAuth.forgotPassword(email);
     } catch (error: any) {
       if (error.response?.status === 422) {
         throw new Error('Unable to find a user with that email address.');
@@ -113,7 +113,7 @@ export const AuthProvider: React.FC = ({children}) => {
    */
   const setPassword = async (password: string) => {
     try {
-      await firebase.setPassword(password);
+      await firebaseAuth.setPassword(password);
     } catch (error: any) {
       throw new Error('Unable to set password.');
     }
@@ -128,7 +128,7 @@ export const AuthProvider: React.FC = ({children}) => {
     password: string,
   ) => {
     try {
-      await firebase.resetPassword(email, token, password);
+      await firebaseAuth.resetPassword(email, token, password);
     } catch (error: any) {
       throw new Error('Unable to reset password.');
     }
@@ -137,7 +137,7 @@ export const AuthProvider: React.FC = ({children}) => {
   /**
    * Refreshes the user if uninitialised.
    */
-  React.useEffect(() => {
+  useEffect(() => {
     if (!userInitialised) {
       (async () => {
         try {

@@ -4,7 +4,7 @@ import {act, fireEvent, render, waitFor} from '@testing-library/react-native';
 import faker from 'faker';
 import {AuthProvider, useAuth} from './context';
 import {fakeUser} from './factory';
-import * as firebase from '@app/services/firebase';
+import * as firebase from '@app/firebase/auth';
 jest.mock('@app/services/firebase');
 
 const testUser = fakeUser();
