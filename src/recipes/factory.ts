@@ -1,5 +1,5 @@
 import {fakeEntity} from '@app/store/factory';
-import {Recipe} from '@app/types';
+import {Recipe} from '@app/recipes/store';
 import faker from 'faker';
 import {defaults} from 'lodash';
 
