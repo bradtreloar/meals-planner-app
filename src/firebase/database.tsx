@@ -1,8 +1,9 @@
 import React, {createContext, useCallback, useEffect} from 'react';
-import {entityReducers, useThunkDispatch} from '@app/store';
+import {entityReducers, useThunkDispatch} from '@app/store/createStore';
 import database, {FirebaseDatabaseTypes} from '@react-native-firebase/database';
 import {useAuth} from '@app/auth/context';
 import {EntityType} from '@app/store/entity';
+import {DateTime} from 'luxon';
 
 export interface FirebaseContextState {}
 
@@ -59,8 +60,8 @@ export async function addEntity<A>(entityType: string, attributes: A) {
   await ref.set(attributes);
   return {
     id: ref.key as string,
-    created: '', // TODO
-    updated: '', // TODO
+    created: DateTime.utc().toISO(),
+    updated: DateTime.utc().toISO(),
     ...attributes,
   } as EntityType<A>;
 }
@@ -72,6 +73,6 @@ export async function updateEntity<A>(
   await database().ref(`/${entityType}/${entity.id}`).update(entity);
   return {
     ...entity,
-    updated: '', // TODO
+    updated: DateTime.utc().toISO(),
   } as EntityType<A>;
 }
