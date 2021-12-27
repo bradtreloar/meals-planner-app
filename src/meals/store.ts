@@ -1,8 +1,5 @@
 import {RootState} from '@app/store/createStore';
 import {createEntitySlice, EntityType} from '@app/store/entity';
-import * as entityUtils from '@app/store/entity';
-
-console.log(entityUtils);
 
 export interface MealAttributes {
   date: string;
