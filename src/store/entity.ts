@@ -46,6 +46,13 @@ export const emptyEntityState = <T>() =>
     status: 'idle',
   } as EntityState<T>);
 
+export const buildEntityState = <T extends Entity>(entities: T[]) =>
+  entities.reduce((entityState, entity) => {
+    entityState.entities.byID[entity.id] = entity;
+    entityState.entities.allIDs.push(entity.id);
+    return entityState;
+  }, emptyEntityState<T>());
+
 export const createEntitySlice = <A>(
   name: string,
   extraReducers?: (

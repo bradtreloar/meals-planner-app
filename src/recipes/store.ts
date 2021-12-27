@@ -1,4 +1,4 @@
-import {RootState} from '@app/store';
+import {RootState} from '@app/store/createStore';
 import {createEntitySlice, EntityType} from '@app/store/entity';
 
 export interface RecipeAttributes {
