@@ -14,9 +14,10 @@ const RecipeListItem: React.FC<RecipeListItemProps> = ({
   onLongPress,
 }) => (
   <TouchableOpacity
+    testID="recipe-list-item"
     onPress={() => onPress(recipe)}
     onLongPress={() => onLongPress(recipe)}>
-    <Text testID="recipe-list-item-text">{recipe.title}</Text>
+    <Text>{recipe.title}</Text>
   </TouchableOpacity>
 );
 
@@ -30,17 +31,15 @@ const RecipesList: React.FC<RecipeSelectListProps> = ({
   recipes,
   onPress,
   onLongPress,
-}) => {
-  return (
-    <FlatList
-      data={recipes.map(recipe => ({
-        recipe,
-        onPress,
-        onLongPress,
-      }))}
-      renderItem={({item}) => <RecipeListItem {...item} />}
-    />
-  );
-};
+}) => (
+  <FlatList
+    data={recipes.map(recipe => ({
+      recipe,
+      onPress,
+      onLongPress,
+    }))}
+    renderItem={({item}) => <RecipeListItem {...item} />}
+  />
+);
 
 export default RecipesList;

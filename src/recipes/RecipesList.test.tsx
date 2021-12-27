@@ -9,7 +9,7 @@ import {
 } from '@testing-library/react-native';
 import RecipesList from './RecipesList';
 
-it('displays the recipes in the same order as they are given', async () => {
+it('displays a list of recipes in order', async () => {
   // Create a list of recipes with titles in alphabetical order.
   const testRecipes = range(3).map(index => {
     return fakeRecipe({
@@ -17,14 +17,13 @@ it('displays the recipes in the same order as they are given', async () => {
     });
   });
 
-  // Pass the recipes to the RecipeList in reverse order.
-  const {getAllByText} = await waitFor(async () =>
+  const {getAllByTestId} = await waitFor(async () =>
     render(
       <RecipesList recipes={testRecipes} onPress={noop} onLongPress={noop} />,
     ),
   );
 
-  const listItems = getAllByText(/test-recipe/i);
+  const listItems = getAllByTestId(/recipe-list-item/i);
   expect(listItems).toHaveLength(3);
   listItems.forEach((listItem, index) => {
     within(listItem).getByText(testRecipes[index].title);
@@ -35,7 +34,6 @@ it('calls the onPress handler when user presses a list item', async () => {
   const testRecipe = fakeRecipe();
   const testOnPress = jest.fn();
 
-  // Pass the recipes to the RecipeList in reverse order.
   const {getByText} = await waitFor(async () =>
     render(
       <RecipesList
@@ -54,7 +52,6 @@ it('calls the onLongPress handler when user long-presses a list item', async () 
   const testRecipe = fakeRecipe();
   const testOnLongPress = jest.fn();
 
-  // Pass the recipes to the RecipeList in reverse order.
   const {getByText} = await waitFor(async () =>
     render(
       <RecipesList
