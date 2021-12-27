@@ -3,7 +3,7 @@ import {useDispatch} from 'react-redux';
 import recipes from '@app/recipes/store';
 import meals from '@app/meals/store';
 
-const entityReducers = {
+export const entityReducers = {
   recipes,
   meals,
 };
