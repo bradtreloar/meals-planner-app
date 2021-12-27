@@ -1,8 +1,16 @@
 import React from 'react';
+import {DateTime} from 'luxon';
 import {StackNavigator} from '@app/App';
 import LoginScreen from '@app/auth/login/LoginScreen';
 import HomeScreen from '@app/home/HomeScreen';
 import {useAuth} from '@app/auth/context';
+
+export type RootStackParamList = {
+  MealsPlanner: {};
+  SelectRecipe: {
+    mealDate: DateTime;
+  };
+};
 
 export interface RootStackProps {
   navigator: typeof StackNavigator;
