@@ -6,7 +6,7 @@ import RecipeForm, {RecipeFormValues} from './RecipeForm';
 import {Recipe} from './store';
 
 interface RecipeModalProps {
-  recipe?: Recipe;
+  recipe: Recipe | null;
   isVisible: boolean;
   onSubmit: (values: RecipeFormValues) => void;
   onCancel: () => void;
@@ -21,7 +21,7 @@ const RecipeModal: React.FC<RecipeModalProps> = ({
   onDelete,
 }) => {
   const defaultValues = useMemo(
-    () => (recipe ? pick(recipe, ['title']) : undefined),
+    () => (recipe !== null ? pick(recipe, ['title']) : undefined),
     [recipe],
   );
 
