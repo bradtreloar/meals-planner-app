@@ -25,6 +25,7 @@
     "luxon": "^2.2.0",
     "react": "17.0.2",
     "react-native": "0.66.3",
+    "react-native-modal": "^13.0.0",
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.10.1",
     "react-navigation-stack": "^2.10.4",
@@ -69,8 +70,11 @@
     ],
     "moduleNameMapper": {
       "^@app/(.*)": "<rootDir>/src/$1",
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
-      "\\.(css|scss)$": "<rootDir>/__mocks__/fileMock.js"
-    }
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/fileTransformer.js",
+      "\\.(css|scss)$": "<rootDir>/fileTransformer.js"
+    },
+    "transformIgnorePatterns": [
+      "node_modules/(?!(react-native|@react-native))"
+    ]
   }
 }
