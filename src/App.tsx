@@ -5,7 +5,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Provider} from 'react-redux';
 import {AuthProvider, useAuth} from '@app/auth/context';
 import RootStack from '@app/navigation/RootStack';
-import createStore from '@app/store';
+import createStore from '@app/store/createStore';
 
 export const StackNavigator = createNativeStackNavigator();
 
