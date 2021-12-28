@@ -1,5 +1,5 @@
 import React from 'react';
-import {orderBy, range, values} from 'lodash';
+import {orderBy, pick, range, values} from 'lodash';
 import faker from 'faker';
 import {configureStore} from '@reduxjs/toolkit';
 import {Provider} from 'react-redux';
@@ -91,6 +91,46 @@ it('renders a list of recipes in alphabetical order', async () => {
   });
 });
 
+it('does not display soft deleted recipes', async () => {
+  const store = createMockStore();
+  const testRecipes = [
+    fakeRecipe({title: 'visible-recipe'}),
+    fakeRecipe({title: 'soft-deleted-recipe', isSoftDeleted: true}),
+  ];
+  store.dispatch({
+    type: `recipes/set`,
+    payload: buildEntityState(testRecipes),
+  });
+
+  const Stack = createNativeStackNavigator();
+  const {getAllByTestId} = await waitFor(async () =>
+    render(
+      <Provider store={store}>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen
+              name="SelectRecipe"
+              component={RecipeSelectScreen}
+              options={{
+                title: 'Select Recipe',
+              }}
+              initialParams={{
+                mealDate: DateTime.local(),
+              }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Provider>,
+    ),
+  );
+
+  const recipesListItems = getAllByTestId(/recipe-list-item/i);
+  expect(recipesListItems).toHaveLength(1);
+  recipesListItems.forEach(recipesListItem => {
+    within(recipesListItem).getByText('visible-recipe');
+  });
+});
+
 function fillForm(context: RenderAPI, recipe: Recipe) {
   const {getByLabelText} = context;
   fireEvent.changeText(getByLabelText(/recipe name/i), recipe.title);
@@ -100,6 +140,11 @@ interface RecipeSelectScreenFixtureProps {
   store: ReturnType<typeof seedStore>;
   mealDate: DateTime;
 }
+
+afterEach(() => {
+  jest.clearAllMocks();
+  jest.useRealTimers();
+});
 
 const RecipeSelectScreenFixture: React.FC<RecipeSelectScreenFixtureProps> = ({
   store,
@@ -206,10 +251,6 @@ it('navigates back to the meals planner when user presses item in recipe list', 
 });
 
 describe('recipe edit modal', () => {
-  afterEach(() => {
-    jest.useRealTimers();
-  });
-
   it('appears when user long-presses item in recipe list', async () => {
     const store = seedStore(1);
     const testRecipe: Recipe = values(
@@ -265,6 +306,40 @@ describe('recipe edit modal', () => {
     );
   });
 
+  it('dispatches recipes/update action when user presses delete button', async () => {
+    const store = seedStore(1);
+    const testRecipe: Recipe = values(
+      store.getState().recipes.entities.byID,
+    )[0];
+    const testMealDate = DateTime.local();
+
+    const context = await waitFor(async () =>
+      render(
+        <RecipeSelectScreenFixture store={store} mealDate={testMealDate} />,
+      ),
+    );
+
+    const {getByText, getByTestId, getByA11yLabel} = context;
+    expect(getByTestId('recipe-modal')).toHaveProp('visible', false);
+    await act(async () => {
+      fireEvent(getByText(testRecipe.title), 'onLongPress');
+    });
+    expect(getByTestId('recipe-modal')).toHaveProp('visible', true);
+    testRecipe.isSoftDeleted = true;
+    testRecipe.updated = DateTime.local().toISO();
+    jest.spyOn(firebaseDatabase, 'updateEntity').mockResolvedValue(testRecipe);
+    await act(async () => {
+      fireEvent(getByA11yLabel(/delete/i), 'onPress');
+    });
+    expect(firebaseDatabase.updateEntity).toHaveBeenCalledWith(
+      'recipes',
+      testRecipe,
+    );
+    expect(store.getState().recipes.entities.byID[testRecipe.id]).toStrictEqual(
+      testRecipe,
+    );
+  });
+
   // it('closes when user presses save button', async () => {
   //   jest.useFakeTimers();
   //   const store = seedStore(1);
@@ -309,5 +384,36 @@ describe('recipe add modal', () => {
       fireEvent(getByA11yLabel(/add recipe/i), 'onPress');
     });
     expect(getByTestId('recipe-modal')).toHaveProp('visible', true);
+  });
+
+  it('dispatches recipes/add action when user presses save button', async () => {
+    const store = seedStore(0);
+    const testRecipe = fakeRecipe();
+    const testMealDate = DateTime.local();
+
+    const context = await waitFor(async () =>
+      render(
+        <RecipeSelectScreenFixture store={store} mealDate={testMealDate} />,
+      ),
+    );
+
+    const {getByTestId, getByA11yLabel} = context;
+    expect(getByTestId('recipe-modal')).toHaveProp('visible', false);
+    await act(async () => {
+      fireEvent(getByA11yLabel(/add recipe/i), 'onPress');
+    });
+    expect(getByTestId('recipe-modal')).toHaveProp('visible', true);
+    jest.spyOn(firebaseDatabase, 'addEntity').mockResolvedValue(testRecipe);
+    fillForm(context, testRecipe);
+    await act(async () => {
+      fireEvent(getByA11yLabel(/save/i), 'onPress');
+    });
+    expect(firebaseDatabase.addEntity).toHaveBeenCalledWith(
+      'recipes',
+      pick(testRecipe, ['title']),
+    );
+    expect(store.getState().recipes.entities.byID[testRecipe.id]).toStrictEqual(
+      testRecipe,
+    );
   });
 });

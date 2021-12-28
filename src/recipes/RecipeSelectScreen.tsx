@@ -19,10 +19,13 @@ export interface RecipesScreenProps
 const RecipesScreen: React.FC<RecipesScreenProps> = ({route, navigation}) => {
   const dispatch = useThunkDispatch();
   const recipesState: EntityState<Recipe> = useSelector(selectRecipes);
-  const sortedRecipes = useMemo(
-    () => orderBy(values(recipesState.entities.byID), ['title'], ['asc']),
-    [recipesState],
-  );
+  // Filter out soft-deleted recipes and sort alphabetically by title.
+  const sortedRecipes = useMemo(() => {
+    const visibleRecipes = values(recipesState.entities.byID).filter(
+      recipe => !recipe.isSoftDeleted,
+    );
+    return orderBy(visibleRecipes, ['title'], ['asc']);
+  }, [recipesState]);
   const {mealDate} = route.params;
   const [editingRecipe, setEditingRecipe] = useState<Recipe | null>(null);
   const [addingRecipe, setAddingRecipe] = useState(false);
@@ -63,9 +66,10 @@ const RecipesScreen: React.FC<RecipesScreenProps> = ({route, navigation}) => {
     }
   }
 
-  function handleDeleteRecipe() {
+  async function handleDeleteRecipe() {
     if (editingRecipe !== null) {
-      // Update the recipe to softDeleted.
+      const updatedRecipe = merge(editingRecipe, {isSoftDeleted: true});
+      await dispatch(recipeActions.update(updatedRecipe));
       setEditingRecipe(null);
     } else {
       throw new Error('Cannot delete undefined recipe.');
