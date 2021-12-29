@@ -10,7 +10,6 @@ import LoginScreen from './LoginScreen';
 import * as authContext from '../context';
 import {noop} from 'lodash';
 import {act} from 'react-test-renderer';
-import {fakeUser} from '../factory';
 jest.mock('../context');
 jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper');
 
@@ -77,12 +76,11 @@ it('displays an error when the form submission fails', async () => {
 });
 
 it('disables the login form while waiting for the login request to finish', async () => {
-  const testUser = fakeUser();
   const testEmail = faker.internet.email();
   const testPassword = faker.internet.password();
   const authContextState = mockUseAuth();
   authContextState.login = async () =>
-    new Promise(resolve => setTimeout(() => resolve(testUser), 2000));
+    new Promise(resolve => setTimeout(() => resolve(undefined), 2000));
   jest.spyOn(authContext, 'useAuth').mockReturnValue(authContextState);
   jest.useFakeTimers();
   const context = await waitFor(async () =>
