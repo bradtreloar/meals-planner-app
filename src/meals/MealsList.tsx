@@ -1,5 +1,5 @@
-import {DateTime} from 'luxon';
 import React from 'react';
+import {DateTime} from 'luxon';
 import {FlatList, Text, TouchableOpacity} from 'react-native';
 
 export type MealItem = {
