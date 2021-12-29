@@ -1,6 +1,6 @@
 import auth from '@react-native-firebase/auth';
 import {pick} from 'lodash';
-import {User} from '@app/types';
+import {User} from '@app/auth/types';
 
 export function currentUser(): User | null {
   const user = auth().currentUser;

@@ -1,6 +1,6 @@
 import faker from 'faker';
 import {defaults} from 'lodash';
-import {User} from '@app/types';
+import {User} from '@app/auth/types';
 
 export const fakeUser = (partialUser?: Partial<User>): User =>
   defaults(partialUser, {
