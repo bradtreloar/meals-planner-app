@@ -57,7 +57,6 @@ const randomMockEntity = (): MockEntity => ({
   title: faker.random.words(3),
   created: '',
   updated: '',
-  isSoftDeleted: false,
 });
 
 const mockEntityActions = {

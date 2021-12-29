@@ -3,6 +3,7 @@ import {createEntitySlice, EntityType} from '@app/store/entity';
 
 export interface RecipeAttributes {
   title: string;
+  isSoftDeleted: boolean;
 }
 
 export type Recipe = EntityType<RecipeAttributes>;

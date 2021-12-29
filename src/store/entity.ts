@@ -17,7 +17,6 @@ export interface Timestamps {
 
 export interface Entity extends Timestamps {
   id: string;
-  isSoftDeleted: boolean;
 }
 
 export type EntityType<Attributes> = Entity & Attributes;

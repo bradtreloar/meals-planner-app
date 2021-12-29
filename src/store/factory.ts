@@ -7,5 +7,4 @@ export const fakeEntity = (partialEntity?: Partial<Entity>): Entity =>
     id: faker.datatype.uuid(),
     created: faker.date.recent().toISOString(),
     updated: faker.date.recent().toISOString(),
-    isSoftDeleted: false,
   });
