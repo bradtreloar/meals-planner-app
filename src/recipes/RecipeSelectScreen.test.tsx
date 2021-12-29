@@ -136,15 +136,15 @@ function fillForm(context: RenderAPI, recipe: Recipe) {
   fireEvent.changeText(getByLabelText(/recipe name/i), recipe.title);
 }
 
-interface RecipeSelectScreenFixtureProps {
-  store: ReturnType<typeof seedStore>;
-  mealDate: DateTime;
-}
-
 afterEach(() => {
   jest.clearAllMocks();
   jest.useRealTimers();
 });
+
+interface RecipeSelectScreenFixtureProps {
+  store: ReturnType<typeof createMockStore>;
+  mealDate: DateTime;
+}
 
 const RecipeSelectScreenFixture: React.FC<RecipeSelectScreenFixtureProps> = ({
   store,
