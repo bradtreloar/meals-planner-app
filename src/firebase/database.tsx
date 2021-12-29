@@ -76,3 +76,11 @@ export async function updateEntity<A>(
     updated: DateTime.utc().toISO(),
   } as EntityType<A>;
 }
+
+export async function deleteEntity<A>(
+  entityType: string,
+  entity: EntityType<A>,
+) {
+  await database().ref(`/${entityType}/${entity.id}`).remove();
+  return entity;
+}

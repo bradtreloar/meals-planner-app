@@ -1,6 +1,6 @@
 import {configureStore} from '@reduxjs/toolkit';
 import faker from 'faker';
-import {range} from 'lodash';
+import {range, values} from 'lodash';
 import {
   createEntitySlice,
   emptyEntityState,
@@ -69,6 +69,7 @@ const mockEntityActions = {
   }),
   add: jest.fn(),
   update: jest.fn(),
+  delete: jest.fn(),
 };
 
 function seedStore(entityCount: number = 1) {
@@ -136,6 +137,21 @@ describe('asynchronous thunk actions', () => {
     expect(action.type).toBe(`${MOCK_ENTITY_TYPE}/update/fulfilled`);
     expect(action.payload).toBe(testMockEntity);
   });
+
+  test('create delete/fulfilled action when "delete" thunk action creator is dispatched', async () => {
+    const {actions, store} = seedStore(0);
+    const testMockEntity = randomMockEntity();
+    jest
+      .spyOn(firebaseDatabase, 'deleteEntity')
+      .mockResolvedValue(testMockEntity);
+    const action = await store.dispatch(actions.delete(testMockEntity));
+    expect(firebaseDatabase.deleteEntity).toHaveBeenCalledWith(
+      MOCK_ENTITY_TYPE,
+      testMockEntity,
+    );
+    expect(action.type).toBe(`${MOCK_ENTITY_TYPE}/delete/fulfilled`);
+    expect(action.payload).toBe(testMockEntity);
+  });
 });
 
 describe('reducers', () => {
@@ -175,5 +191,43 @@ describe('reducers', () => {
     });
     const {entities} = store.getState().mockEntities;
     expect(entities.allIDs).toStrictEqual([testMockEntity.id]);
+  });
+
+  test('update entity in store when update action is dispatched', async () => {
+    const {store} = seedStore(1);
+    const testMockEntity = values(
+      store.getState()[MOCK_ENTITY_TYPE].entities.byID,
+    )[0];
+    testMockEntity.title = faker.random.words(3);
+    jest.spyOn(mockEntityActions, 'update').mockReturnValue({
+      type: `${MOCK_ENTITY_TYPE}/update/fulfilled`,
+      payload: testMockEntity,
+    });
+    const action = await store.dispatch(
+      mockEntityActions.update(testMockEntity),
+    );
+    expect(action.type).toBe(`${MOCK_ENTITY_TYPE}/update/fulfilled`);
+    expect(mockEntityActions.update).toHaveBeenCalledWith(testMockEntity);
+    const {entities} = store.getState().mockEntities;
+    expect(entities.byID[testMockEntity.id]).toStrictEqual(testMockEntity);
+  });
+
+  test('delete entity from store when delete action is dispatched', async () => {
+    const {store} = seedStore(1);
+    const testMockEntity = values(
+      store.getState()[MOCK_ENTITY_TYPE].entities.byID,
+    )[0];
+    jest.spyOn(mockEntityActions, 'delete').mockReturnValue({
+      type: `${MOCK_ENTITY_TYPE}/delete/fulfilled`,
+      payload: testMockEntity,
+    });
+    const action = await store.dispatch(
+      mockEntityActions.delete(testMockEntity),
+    );
+    expect(action.type).toBe(`${MOCK_ENTITY_TYPE}/delete/fulfilled`);
+    expect(mockEntityActions.delete).toHaveBeenCalledWith(testMockEntity);
+    const {entities} = store.getState().mockEntities;
+    expect(entities.byID[testMockEntity.id]).toBeUndefined();
+    expect(entities.allIDs).toHaveLength(0);
   });
 });

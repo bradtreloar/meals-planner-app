@@ -1,4 +1,4 @@
-import {addEntity, updateEntity} from '@app/firebase/database';
+import {addEntity, deleteEntity, updateEntity} from '@app/firebase/database';
 import {
   ActionReducerMapBuilder,
   createAsyncThunk,
@@ -86,6 +86,14 @@ export const createEntitySlice = <A>(
         state.entities.byID[entity.id] = entity as Draft<EntityType<A>>;
       });
 
+      builder.addCase(asyncActions.delete.fulfilled, (state, action) => {
+        const entity = action.payload;
+        delete state.entities.byID[entity.id];
+        state.entities.allIDs = state.entities.allIDs.filter(
+          id => id !== entity.id,
+        );
+      });
+
       builder
         .addMatcher(isPending, state => {
           state.status = 'pending';
@@ -114,5 +122,9 @@ export const createAsyncEntityActions = <A>(entityType: string) => ({
   update: createAsyncThunk(
     `${entityType}/update`,
     async (entity: EntityType<A>) => await updateEntity(entityType, entity),
+  ),
+  delete: createAsyncThunk(
+    `${entityType}/delete`,
+    async (entity: EntityType<A>) => await deleteEntity(entityType, entity),
   ),
 });
