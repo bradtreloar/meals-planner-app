@@ -20,7 +20,7 @@ import recipes, {Recipe} from './store';
 import meals, {actions as mealActions, Meal} from '@app/meals/store';
 import {fakeMeal} from '@app/meals/factory';
 import {act} from 'react-test-renderer';
-import {Button, Text, View} from 'react-native';
+import {Button, View} from 'react-native';
 import {MealsPlannerScreenProps} from '@app/meals/MealsPlannerScreen';
 import * as firebaseDatabase from '@app/firebase/database';
 jest.mock('@app/firebase/database');
@@ -200,8 +200,7 @@ it('navigates back to the meals planner when user presses item in recipe list', 
     navigation,
   }) => {
     return (
-      <View>
-        <Text>Meals Planner</Text>
+      <View testID="mock-meals-planner-screen">
         <Button
           title="Add Meal"
           onPress={() => {
@@ -215,7 +214,7 @@ it('navigates back to the meals planner when user presses item in recipe list', 
   };
 
   const Stack = createNativeStackNavigator();
-  const {getByText} = await waitFor(async () =>
+  const {getByText, getByTestId} = await waitFor(async () =>
     render(
       <Provider store={store}>
         <NavigationContainer>
@@ -247,7 +246,7 @@ it('navigates back to the meals planner when user presses item in recipe list', 
   await act(async () => {
     fireEvent(getByText(testRecipe.title), 'onPress');
   });
-  getByText(/meals planner/i);
+  getByTestId(/mock-meals-planner-screen/i);
 });
 
 describe('recipe edit modal', () => {
@@ -410,7 +409,7 @@ describe('recipe add modal', () => {
     });
     expect(firebaseDatabase.addEntity).toHaveBeenCalledWith(
       'recipes',
-      pick(testRecipe, ['title']),
+      pick(testRecipe, ['title', 'isSoftDeleted']),
     );
     expect(store.getState().recipes.entities.byID[testRecipe.id]).toStrictEqual(
       testRecipe,

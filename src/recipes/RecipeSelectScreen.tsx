@@ -13,10 +13,13 @@ import {RootStackParamList} from '@app/navigation/RootStack';
 import RecipeModal from './RecipeModal';
 import {RecipeFormValues} from './RecipeForm';
 
-export interface RecipesScreenProps
+export interface RecipeSelectScreenProps
   extends NativeStackScreenProps<RootStackParamList, 'SelectRecipe'> {}
 
-const RecipesScreen: React.FC<RecipesScreenProps> = ({route, navigation}) => {
+const RecipesScreen: React.FC<RecipeSelectScreenProps> = ({
+  route,
+  navigation,
+}) => {
   const dispatch = useThunkDispatch();
   const recipesState: EntityState<Recipe> = useSelector(selectRecipes);
   // Filter out soft-deleted recipes and sort alphabetically by title.
@@ -61,7 +64,12 @@ const RecipesScreen: React.FC<RecipesScreenProps> = ({route, navigation}) => {
       await dispatch(recipeActions.update(updatedRecipe));
       setEditingRecipe(null);
     } else {
-      await dispatch(recipeActions.add(formValues));
+      await dispatch(
+        recipeActions.add({
+          ...formValues,
+          isSoftDeleted: false,
+        }),
+      );
       setAddingRecipe(false);
     }
   }
