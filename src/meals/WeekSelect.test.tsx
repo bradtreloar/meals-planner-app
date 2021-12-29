@@ -4,7 +4,7 @@ import React from 'react';
 import WeekSelect from './WeekSelect';
 
 it('advances the date by one week when the user presses the "next week" button', () => {
-  const testStartDate = DateTime.local();
+  const testStartDate = DateTime.utc();
   const mockOnChange = jest.fn();
   const {getByA11yLabel} = render(
     <WeekSelect startDate={testStartDate} onChange={mockOnChange} />,
@@ -14,7 +14,7 @@ it('advances the date by one week when the user presses the "next week" button',
 });
 
 it('retreats the date by one week when the user presses the "previous week" button', () => {
-  const testStartDate = DateTime.local();
+  const testStartDate = DateTime.utc();
   const mockOnChange = jest.fn();
   const {getByA11yLabel} = render(
     <WeekSelect startDate={testStartDate} onChange={mockOnChange} />,

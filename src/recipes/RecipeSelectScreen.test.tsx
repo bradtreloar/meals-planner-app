@@ -70,7 +70,7 @@ it('renders a list of recipes in alphabetical order', async () => {
                 title: 'Select Recipe',
               }}
               initialParams={{
-                mealDate: DateTime.local(),
+                mealDate: DateTime.utc(),
               }}
             />
           </Stack.Navigator>
@@ -115,7 +115,7 @@ it('does not display soft deleted recipes', async () => {
                 title: 'Select Recipe',
               }}
               initialParams={{
-                mealDate: DateTime.local(),
+                mealDate: DateTime.utc(),
               }}
             />
           </Stack.Navigator>
@@ -174,7 +174,7 @@ const RecipeSelectScreenFixture: React.FC<RecipeSelectScreenFixtureProps> = ({
 it('dispatches meals/add action when user presses item in recipe list', async () => {
   const store = seedStore(1);
   const testRecipe: Recipe = values(store.getState().recipes.entities.byID)[0];
-  const testMealDate = DateTime.local();
+  const testMealDate = DateTime.utc();
 
   const {getByText} = await waitFor(async () =>
     render(<RecipeSelectScreenFixture store={store} mealDate={testMealDate} />),
@@ -191,7 +191,7 @@ it('dispatches meals/add action when user presses item in recipe list', async ()
 it('navigates back to the meals planner when user presses item in recipe list', async () => {
   const store = seedStore(1);
   const testRecipe: Recipe = values(store.getState().recipes.entities.byID)[0];
-  const testMealDate = DateTime.local();
+  const testMealDate = DateTime.utc();
   const testMeal: Meal = fakeMeal(testRecipe, {
     date: testMealDate.toISO(),
   });
@@ -255,7 +255,7 @@ describe('recipe edit modal', () => {
     const testRecipe: Recipe = values(
       store.getState().recipes.entities.byID,
     )[0];
-    const testMealDate = DateTime.local();
+    const testMealDate = DateTime.utc();
 
     const {getByText, getByTestId} = await waitFor(async () =>
       render(
@@ -275,7 +275,7 @@ describe('recipe edit modal', () => {
     const testRecipe: Recipe = values(
       store.getState().recipes.entities.byID,
     )[0];
-    const testMealDate = DateTime.local();
+    const testMealDate = DateTime.utc();
 
     const context = await waitFor(async () =>
       render(
@@ -290,7 +290,7 @@ describe('recipe edit modal', () => {
     });
     expect(getByTestId('recipe-modal')).toHaveProp('visible', true);
     testRecipe.title = faker.random.words(3);
-    testRecipe.updated = DateTime.local().toISO();
+    testRecipe.updated = DateTime.utc().toISO();
     jest.spyOn(firebaseDatabase, 'updateEntity').mockResolvedValue(testRecipe);
     fillForm(context, testRecipe);
     await act(async () => {
@@ -310,7 +310,7 @@ describe('recipe edit modal', () => {
     const testRecipe: Recipe = values(
       store.getState().recipes.entities.byID,
     )[0];
-    const testMealDate = DateTime.local();
+    const testMealDate = DateTime.utc();
 
     const context = await waitFor(async () =>
       render(
@@ -325,7 +325,7 @@ describe('recipe edit modal', () => {
     });
     expect(getByTestId('recipe-modal')).toHaveProp('visible', true);
     testRecipe.isSoftDeleted = true;
-    testRecipe.updated = DateTime.local().toISO();
+    testRecipe.updated = DateTime.utc().toISO();
     jest.spyOn(firebaseDatabase, 'updateEntity').mockResolvedValue(testRecipe);
     await act(async () => {
       fireEvent(getByA11yLabel(/delete/i), 'onPress');
@@ -345,7 +345,7 @@ describe('recipe edit modal', () => {
   //   const testRecipe: Recipe = values(
   //     store.getState().recipes.entities.byID,
   //   )[0];
-  //   const testMealDate = DateTime.local();
+  //   const testMealDate = DateTime.utc();
 
   //   const context = await waitFor(async () =>
   //     render(
@@ -370,7 +370,7 @@ describe('recipe edit modal', () => {
 describe('recipe add modal', () => {
   it('appears when user presses add recipe button', async () => {
     const store = seedStore(0);
-    const testMealDate = DateTime.local();
+    const testMealDate = DateTime.utc();
 
     const {getByTestId, getByA11yLabel} = await waitFor(async () =>
       render(
@@ -388,7 +388,7 @@ describe('recipe add modal', () => {
   it('dispatches recipes/add action when user presses save button', async () => {
     const store = seedStore(0);
     const testRecipe = fakeRecipe();
-    const testMealDate = DateTime.local();
+    const testMealDate = DateTime.utc();
 
     const context = await waitFor(async () =>
       render(
