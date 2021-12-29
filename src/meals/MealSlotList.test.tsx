@@ -8,7 +8,7 @@ import {
 } from '@testing-library/react-native';
 import {fakeRecipe} from '@app/recipes/factory';
 import {fakeMeal} from '@app/meals/factory';
-import MealsList, {MealItem} from './MealsList';
+import MealsList, {MealSlot} from './MealSlotList';
 import {DateTime} from 'luxon';
 
 it('displays a list of meals in date order', async () => {
@@ -19,14 +19,14 @@ it('displays a list of meals in date order', async () => {
       date: DateTime.utc().plus({days: daysOffset}).toISO(),
     }),
   );
-  const testMealItems: MealItem[] = testMeals.map((meal, index) => ({
+  const testMealSlots: MealSlot[] = testMeals.map((meal, index) => ({
     date: DateTime.fromISO(meal.date),
     mealID: meal.id,
     recipeTitle: testRecipes[index].title,
   }));
 
   const {getAllByTestId} = await waitFor(async () =>
-    render(<MealsList mealItems={testMealItems} onPress={noop} />),
+    render(<MealsList mealSlots={testMealSlots} onPress={noop} />),
   );
 
   const listItems = getAllByTestId(/meal-list-item/i);
@@ -39,7 +39,7 @@ it('displays a list of meals in date order', async () => {
 it('calls the onPress handler when user presses a list item', async () => {
   const testRecipe = fakeRecipe();
   const testMeal = fakeMeal(testRecipe);
-  const testMealItems = [
+  const testMealSlots = [
     {
       date: DateTime.fromISO(testMeal.date),
       mealID: testMeal.id,
@@ -52,10 +52,10 @@ it('calls the onPress handler when user presses a list item', async () => {
   const testOnPress = jest.fn();
 
   const {getByText} = await waitFor(async () =>
-    render(<MealsList mealItems={testMealItems} onPress={testOnPress} />),
+    render(<MealsList mealSlots={testMealSlots} onPress={testOnPress} />),
   );
   fireEvent.press(getByText(testRecipe.title));
-  expect(testOnPress).toHaveBeenCalledWith(testMealItems[0]);
+  expect(testOnPress).toHaveBeenCalledWith(testMealSlots[0]);
   fireEvent.press(getByText(/add meal/i));
-  expect(testOnPress).toHaveBeenCalledWith(testMealItems[1]);
+  expect(testOnPress).toHaveBeenCalledWith(testMealSlots[1]);
 });
