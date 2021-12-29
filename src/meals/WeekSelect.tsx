@@ -4,7 +4,7 @@ import {Button, Text, View} from 'react-native';
 
 interface WeekSelectProps {
   startDate: DateTime;
-  onChange: (newStartDate: DateTime) => {};
+  onChange: (newStartDate: DateTime) => void;
 }
 
 const WeekSelect: React.FC<WeekSelectProps> = ({startDate, onChange}) => {
