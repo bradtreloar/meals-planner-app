@@ -10,13 +10,11 @@ export type MealItem = {
 
 interface MealListItemProps {
   mealItem: MealItem;
-  onPress: (mealID?: string) => void;
+  onPress: (mealItem: MealItem) => void;
 }
 
 const MealListItem: React.FC<MealListItemProps> = ({mealItem, onPress}) => (
-  <TouchableOpacity
-    testID="meal-list-item"
-    onPress={() => onPress(mealItem.mealID)}>
+  <TouchableOpacity testID="meal-list-item" onPress={() => onPress(mealItem)}>
     {mealItem.mealID ? (
       <Text>{mealItem.recipeTitle}</Text>
     ) : (
@@ -27,7 +25,7 @@ const MealListItem: React.FC<MealListItemProps> = ({mealItem, onPress}) => (
 
 interface MealsListProps {
   mealItems: MealItem[];
-  onPress: (mealID?: string) => void;
+  onPress: (mealItem: MealItem) => void;
 }
 
 const MealsList: React.FC<MealsListProps> = ({mealItems, onPress}) => (

@@ -55,7 +55,7 @@ it('calls the onPress handler when user presses a list item', async () => {
     render(<MealsList mealItems={testMealItems} onPress={testOnPress} />),
   );
   fireEvent.press(getByText(testRecipe.title));
-  expect(testOnPress).toHaveBeenCalledWith(testMeal.id);
+  expect(testOnPress).toHaveBeenCalledWith(testMealItems[0]);
   fireEvent.press(getByText(/add meal/i));
-  expect(testOnPress).toHaveBeenCalledWith(undefined);
+  expect(testOnPress).toHaveBeenCalledWith(testMealItems[1]);
 });
