@@ -2,7 +2,7 @@ import React, {createContext, useCallback, useEffect} from 'react';
 import {entityReducers, useThunkDispatch} from '@app/store/createStore';
 import database, {FirebaseDatabaseTypes} from '@react-native-firebase/database';
 import {useAuth} from '@app/auth/context';
-import {EntityType} from '@app/store/entity';
+import {EntityType} from '@app/store/types';
 import {DateTime} from 'luxon';
 
 export interface FirebaseContextState {}

@@ -1,12 +1,6 @@
 import {RootState} from '@app/store/createStore';
-import {createEntitySlice, EntityType} from '@app/store/entity';
-
-export interface MealAttributes {
-  date: string;
-  recipeID: string;
-}
-
-export type Meal = EntityType<MealAttributes>;
+import {createEntitySlice} from '@app/store/entity';
+import {MealAttributes} from './types';
 
 const {reducer, actions} = createEntitySlice<MealAttributes>('meals');
 

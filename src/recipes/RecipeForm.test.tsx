@@ -8,7 +8,7 @@ import {
 import {noop} from 'lodash';
 import {fakeRecipe} from './factory';
 import RecipeForm from './RecipeForm';
-import {Recipe} from './store';
+import {Recipe} from './types';
 
 function fillForm(context: RenderAPI, recipe: Recipe) {
   const {getByLabelText} = context;

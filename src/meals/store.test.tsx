@@ -1,5 +1,6 @@
 import {configureStore} from '@reduxjs/toolkit';
-import meals, {actions as recipeActions, Meal} from './store';
+import meals, {actions as recipeActions} from './store';
+import {Meal} from './types';
 import * as firebaseDatabase from '@app/firebase/database';
 import {fakeMeal} from './factory';
 import {range} from 'lodash';

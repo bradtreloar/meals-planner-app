@@ -4,7 +4,7 @@ import React from 'react';
 import {View} from 'react-native';
 import {fakeRecipe} from './factory';
 import RecipeModal from './RecipeModal';
-import {Recipe} from './store';
+import {Recipe} from './types';
 
 interface RecipeModalFixtureProps {
   recipe: Recipe;

@@ -1,5 +1,6 @@
 import {configureStore} from '@reduxjs/toolkit';
-import recipes, {actions as recipeActions, Recipe} from './store';
+import recipes, {actions as recipeActions} from './store';
+import {Recipe} from './types';
 import * as firebaseDatabase from '@app/firebase/database';
 import {fakeRecipe} from './factory';
 import {range} from 'lodash';
@@ -36,10 +37,12 @@ test('add recipe', async () => {
   const action = await store.dispatch(
     recipeActions.add({
       title: testRecipe.title,
+      isSoftDeleted: testRecipe.isSoftDeleted,
     }),
   );
   expect(firebaseDatabase.addEntity).toHaveBeenCalledWith('recipes', {
     title: testRecipe.title,
+    isSoftDeleted: testRecipe.isSoftDeleted,
   });
   expect(action.type).toBe(`recipes/add/fulfilled`);
   expect(action.payload).toBe(testRecipe);
@@ -60,6 +63,7 @@ test('add recipe using useDispatch hook', async () => {
         await dispatch(
           recipeActions.add({
             title: recipe.title,
+            isSoftDeleted: recipe.isSoftDeleted,
           }),
         );
       })();
@@ -77,6 +81,7 @@ test('add recipe using useDispatch hook', async () => {
 
   expect(firebaseDatabase.addEntity).toHaveBeenCalledWith('recipes', {
     title: testRecipe.title,
+    isSoftDeleted: testRecipe.isSoftDeleted,
   });
   expect(store.getState().recipes.entities.allIDs).toContain(testRecipe.id);
 });

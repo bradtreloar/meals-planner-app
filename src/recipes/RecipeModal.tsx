@@ -3,7 +3,7 @@ import React, {useMemo} from 'react';
 import {View} from 'react-native';
 import Modal from 'react-native-modal';
 import RecipeForm, {RecipeFormValues} from './RecipeForm';
-import {Recipe} from './store';
+import {Recipe} from './types';
 
 interface RecipeModalProps {
   recipe: Recipe | null;

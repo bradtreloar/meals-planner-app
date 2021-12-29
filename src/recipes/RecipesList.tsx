@@ -1,6 +1,6 @@
 import React from 'react';
 import {FlatList, Text, TouchableOpacity} from 'react-native';
-import {Recipe} from './store';
+import {Recipe} from './types';
 
 interface RecipeListItemProps {
   recipe: Recipe;

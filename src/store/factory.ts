@@ -1,6 +1,6 @@
 import {defaults} from 'lodash';
 import faker from 'faker';
-import {Entity} from './entity';
+import {Entity} from './types';
 
 export const fakeEntity = (partialEntity?: Partial<Entity>): Entity =>
   defaults(partialEntity, {
