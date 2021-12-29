@@ -1,6 +1,6 @@
 import React from 'react';
 import {DateTime} from 'luxon';
-import {StackNavigator} from '@app/App';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import LoginScreen from '@app/auth/login/LoginScreen';
 import HomeScreen from '@app/home/HomeScreen';
 import {useAuth} from '@app/auth/context';
@@ -13,7 +13,7 @@ export type RootStackParamList = {
 };
 
 export interface RootStackProps {
-  navigator: typeof StackNavigator;
+  navigator: ReturnType<typeof createNativeStackNavigator>;
 }
 
 const RootStack: React.FC<RootStackProps> = ({navigator: Stack}) => {
