@@ -39,7 +39,7 @@ const AuthTestFixture = () => {
         title="Log in"
         onPress={async () => {
           try {
-            await login(testUser.email, testPassword);
+            await login(testUser.email as string, testPassword);
           } catch (loginError: any) {
             setError(loginError.message);
           }
@@ -48,7 +48,11 @@ const AuthTestFixture = () => {
       <Button
         title="Save Password"
         onPress={async () => {
-          await resetPassword(testUser.email, testToken, testPassword);
+          await resetPassword(
+            testUser.email as string,
+            testToken,
+            testPassword,
+          );
           setMessage('password was reset');
         }}
       />
@@ -125,7 +129,7 @@ describe('unauthenticated user', () => {
           <Button
             title="Reset Password"
             onPress={async () => {
-              await forgotPassword(testUser.email);
+              await forgotPassword(testUser.email as string);
               setMessage('Request Submitted');
             }}
           />
