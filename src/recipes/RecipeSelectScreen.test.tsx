@@ -12,7 +12,7 @@ import {
 } from '@testing-library/react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {DateTime} from 'luxon';
+import {DateTime, Settings as LuxonSettings} from 'luxon';
 import RecipeSelectScreen from './RecipeSelectScreen';
 import {fakeRecipe} from './factory';
 import {buildEntityState} from '@app/store/entity';
@@ -47,6 +47,13 @@ function seedStore(recipeCount: number = 1) {
   return store;
 }
 
+beforeEach(() => {
+  LuxonSettings.defaultZone = 'utc';
+  // Mock the current time to midnight on Monday 3 January 2000.
+  const mockNow = DateTime.utc(2000, 1, 3, 0, 0, 0, 0);
+  LuxonSettings.now = () => mockNow.toMillis();
+});
+
 it('renders a list of recipes in alphabetical order', async () => {
   const store = createMockStore();
   const testRecipes = [
@@ -72,7 +79,7 @@ it('renders a list of recipes in alphabetical order', async () => {
                 title: 'Select Recipe',
               }}
               initialParams={{
-                mealDate: DateTime.utc(),
+                mealDate: DateTime.utc().startOf('day'),
               }}
             />
           </Stack.Navigator>
@@ -117,7 +124,7 @@ it('does not display soft deleted recipes', async () => {
                 title: 'Select Recipe',
               }}
               initialParams={{
-                mealDate: DateTime.utc(),
+                mealDate: DateTime.utc().startOf('day'),
               }}
             />
           </Stack.Navigator>

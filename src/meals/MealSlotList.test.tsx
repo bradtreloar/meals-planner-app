@@ -9,7 +9,14 @@ import {
 import {fakeRecipe} from '@app/recipes/factory';
 import {fakeMeal} from '@app/meals/factory';
 import MealsList, {MealSlot} from './MealSlotList';
-import {DateTime} from 'luxon';
+import {DateTime, Settings as LuxonSettings} from 'luxon';
+
+beforeEach(() => {
+  LuxonSettings.defaultZone = 'utc';
+  // Mock the current time to midnight on Monday 3 January 2000.
+  const mockNow = DateTime.utc(2000, 1, 3, 0, 0, 0, 0);
+  LuxonSettings.now = () => mockNow.toMillis();
+});
 
 it('displays a list of meals in date order', async () => {
   const itemCount = 7;
