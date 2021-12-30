@@ -176,7 +176,7 @@ const RecipeSelectScreenFixture: React.FC<RecipeSelectScreenFixtureProps> = ({
 it('dispatches meals/add action when user presses item in recipe list', async () => {
   const store = seedStore(1);
   const testRecipe: Recipe = values(store.getState().recipes.entities.byID)[0];
-  const testMealDate = DateTime.utc();
+  const testMealDate = DateTime.utc().startOf('day');
 
   const {getByText} = await waitFor(async () =>
     render(<RecipeSelectScreenFixture store={store} mealDate={testMealDate} />),
@@ -193,7 +193,7 @@ it('dispatches meals/add action when user presses item in recipe list', async ()
 it('navigates back to the meals planner when user presses item in recipe list', async () => {
   const store = seedStore(1);
   const testRecipe: Recipe = values(store.getState().recipes.entities.byID)[0];
-  const testMealDate = DateTime.utc();
+  const testMealDate = DateTime.utc().startOf('day');
   const testMeal: Meal = fakeMeal(testRecipe, {
     date: testMealDate.toISO(),
   });
@@ -257,7 +257,7 @@ describe('recipe edit modal', () => {
     const testRecipe: Recipe = values(
       store.getState().recipes.entities.byID,
     )[0];
-    const testMealDate = DateTime.utc();
+    const testMealDate = DateTime.utc().startOf('day');
 
     const {getByText, getByTestId} = await waitFor(async () =>
       render(
@@ -277,7 +277,7 @@ describe('recipe edit modal', () => {
     const testRecipe: Recipe = values(
       store.getState().recipes.entities.byID,
     )[0];
-    const testMealDate = DateTime.utc();
+    const testMealDate = DateTime.utc().startOf('day');
 
     const context = await waitFor(async () =>
       render(
@@ -312,7 +312,7 @@ describe('recipe edit modal', () => {
     const testRecipe: Recipe = values(
       store.getState().recipes.entities.byID,
     )[0];
-    const testMealDate = DateTime.utc();
+    const testMealDate = DateTime.utc().startOf('day');
 
     const context = await waitFor(async () =>
       render(
@@ -347,7 +347,7 @@ describe('recipe edit modal', () => {
   //   const testRecipe: Recipe = values(
   //     store.getState().recipes.entities.byID,
   //   )[0];
-  //   const testMealDate = DateTime.utc();
+  //   const testMealDate = DateTime.utc().startOf('day');
 
   //   const context = await waitFor(async () =>
   //     render(
@@ -372,7 +372,7 @@ describe('recipe edit modal', () => {
 describe('recipe add modal', () => {
   it('appears when user presses add recipe button', async () => {
     const store = seedStore(0);
-    const testMealDate = DateTime.utc();
+    const testMealDate = DateTime.utc().startOf('day');
 
     const {getByTestId, getByA11yLabel} = await waitFor(async () =>
       render(
@@ -390,7 +390,7 @@ describe('recipe add modal', () => {
   it('dispatches recipes/add action when user presses save button', async () => {
     const store = seedStore(0);
     const testRecipe = fakeRecipe();
-    const testMealDate = DateTime.utc();
+    const testMealDate = DateTime.utc().startOf('day');
 
     const context = await waitFor(async () =>
       render(

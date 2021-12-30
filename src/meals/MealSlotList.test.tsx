@@ -16,7 +16,7 @@ it('displays a list of meals in date order', async () => {
   const testRecipes = range(itemCount).map(() => fakeRecipe());
   const testMeals = testRecipes.map((recipe, daysOffset) =>
     fakeMeal(recipe, {
-      date: DateTime.utc().plus({days: daysOffset}).toISO(),
+      date: DateTime.utc().startOf('day').plus({days: daysOffset}).toISO(),
     }),
   );
   const testMealSlots: MealSlot[] = testMeals.map((meal, index) => ({
