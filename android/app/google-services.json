@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "553820500267",
+    "firebase_url": "https://meals-planner-7dab9-default-rtdb.firebaseio.com",
+    "project_id": "meals-planner-7dab9",
+    "storage_bucket": "meals-planner-7dab9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:553820500267:android:670cb92a56c49dd191956e",
+        "android_client_info": {
+          "package_name": "com.mealsplanner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "553820500267-n14a7m26691mkp24i5b5sq5r6obkc52i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnO6pp0bBhY_fYNE_5TyI3CZQ5sbQmG48"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "553820500267-n14a7m26691mkp24i5b5sq5r6obkc52i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
