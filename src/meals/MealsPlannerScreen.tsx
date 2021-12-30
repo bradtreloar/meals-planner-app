@@ -43,7 +43,7 @@ const MealsPlannerScreen: React.FC<MealsPlannerScreenProps> = ({
       range(7).map(day => {
         const date = startDate.plus({days: day});
         const key = day.toString();
-        if (key in selectMeals) {
+        if (key in selectedMeals) {
           const meal = selectedMeals[key];
           return {
             date,
