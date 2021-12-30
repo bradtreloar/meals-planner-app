@@ -2,7 +2,8 @@ import React from 'react';
 import * as EmailValidator from 'email-validator';
 import useForm from '@app/common/forms/useForm';
 import TextInputWrapper from '@app/common/forms/TextInputWrapper';
-import {Button, View} from 'react-native';
+import FormContainer from '@app/common/forms/FormContainer';
+import SubmitButton from '@app/common/forms/SubmitButton';
 
 export type LoginFormValues = {
   email: string;
@@ -47,7 +48,7 @@ const LoginForm: React.FC<LoginFormProps> = ({onSubmit, isPending}) => {
   } = useForm(initialValues, onSubmit, validate);
 
   return (
-    <View>
+    <FormContainer>
       <TextInputWrapper
         label="Email Address"
         name="email"
@@ -61,6 +62,7 @@ const LoginForm: React.FC<LoginFormProps> = ({onSubmit, isPending}) => {
       <TextInputWrapper
         label="Password"
         name="password"
+        isPassword
         value={values.password}
         feedback={visibleErrors.password && errors.password}
         isInvalid={visibleErrors.password}
@@ -68,14 +70,14 @@ const LoginForm: React.FC<LoginFormProps> = ({onSubmit, isPending}) => {
         onBlur={handleBlur}
         isDisabled={isPending}
       />
-      <Button
+      <SubmitButton
         title={isPending ? 'Logging in' : 'Log in'}
         accessibilityLabel={isPending ? 'Logging in' : 'Log in'}
         testID="login-form-submit-button"
         onPress={handleSubmit}
         disabled={isPending}
       />
-    </View>
+    </FormContainer>
   );
 };
 

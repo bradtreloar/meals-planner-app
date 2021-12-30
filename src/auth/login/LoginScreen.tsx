@@ -4,6 +4,7 @@ import {View, Text, StyleSheet} from 'react-native';
 import {useAuth} from '../context';
 import LoginForm, {LoginFormValues} from './LoginForm';
 import {NavigationStackScreenProps} from 'react-navigation-stack';
+import {feedbackStyles} from '@app/common/forms/styles';
 
 const LoginScreen: React.FC<NavigationStackScreenProps> = () => {
   const {login} = useAuth();
@@ -14,12 +15,13 @@ const LoginScreen: React.FC<NavigationStackScreenProps> = () => {
   );
 
   return (
-    <View style={styles.viewStyle}>
-      <Text>Log in</Text>
+    <View>
+      <Text style={styles.title}>Meals Planner</Text>
+      <Text style={styles.formTitle}>Log in</Text>
       {formError && (
-        <Text style={[styles.feedback, styles.invalidFeedback]}>
-          {formError}
-        </Text>
+        <View style={styles.feedbackContainer}>
+          <Text style={feedbackStyles.invalid}>{formError}</Text>
+        </View>
       )}
       <LoginForm onSubmit={handleSubmit} isPending={formPending} />
     </View>
@@ -27,14 +29,21 @@ const LoginScreen: React.FC<NavigationStackScreenProps> = () => {
 };
 
 const styles = StyleSheet.create({
-  viewStyle: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+  title: {
+    fontSize: 36,
+    fontWeight: 'bold',
+    paddingVertical: 24,
+    paddingHorizontal: 24,
   },
-  feedback: {},
-  validFeedback: {},
-  invalidFeedback: {},
+  formTitle: {
+    fontSize: 24,
+    paddingBottom: 24,
+    paddingHorizontal: 24,
+  },
+  feedbackContainer: {
+    paddingVertical: 8,
+    paddingHorizontal: 24,
+  },
 });
 
 export default LoginScreen;
