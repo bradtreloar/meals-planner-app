@@ -1,11 +1,11 @@
 import React from 'react';
-import {Text, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Provider} from 'react-redux';
 import {AuthProvider, useAuth} from '@app/auth/context';
 import RootStack from '@app/navigation/RootStack';
 import createStore from '@app/store/createStore';
+import SplashScreen from '@app/SplashScreen';
 
 export const StackNavigator = createNativeStackNavigator();
 
@@ -16,11 +16,7 @@ const App: React.FC = () => {
   const isLoading = !userInitialised;
 
   if (isLoading) {
-    return (
-      <View>
-        <Text>Splash</Text>
-      </View>
-    );
+    return <SplashScreen />;
   }
 
   return <RootStack navigator={StackNavigator} />;
