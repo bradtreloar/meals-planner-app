@@ -31,7 +31,7 @@ const RootStack: React.FC<RootStackProps> = ({navigator: Stack}) => {
             name="Login"
             component={LoginScreen}
             options={{
-              title: 'Log in',
+              headerShown: false,
               // Push when signing in, pop when signing out.
               animationTypeForReplace: isAuthenticated ? 'push' : 'pop',
             }}
