@@ -1,12 +1,15 @@
+import {useAuth} from '@app/auth/context';
 import * as React from 'react';
 import {View, Text, StyleSheet, Button} from 'react-native';
 import {NavigationStackScreenProps} from 'react-navigation-stack';
 
-const HomeScreen: React.FC<NavigationStackScreenProps> = ({navigation}) => {
+const HomeScreen: React.FC<NavigationStackScreenProps> = () => {
+  const {logout} = useAuth();
+
   return (
     <View style={styles.viewStyle}>
       <Text>Home Screen</Text>
-      <Button title="Log in" onPress={() => navigation.navigate('Login')} />
+      <Button title="Log out" onPress={logout} />
     </View>
   );
 };
