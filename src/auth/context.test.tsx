@@ -4,6 +4,8 @@ import {act, fireEvent, render, waitFor} from '@testing-library/react-native';
 import faker from 'faker';
 import {AuthProvider, useAuth} from './context';
 import {fakeUser} from './factory';
+import {noop} from 'lodash';
+import {User} from './types';
 import * as firebase from '@app/firebase/auth';
 jest.mock('@app/firebase/auth');
 
@@ -60,15 +62,27 @@ const AuthTestFixture = () => {
   );
 };
 
+let testGlobals = {
+  refreshUserCallback: noop as (user: User | null) => void,
+};
+
+function triggerAuthStateChange(user: User | null) {
+  act(() => {
+    testGlobals.refreshUserCallback(user);
+  });
+}
+
 beforeEach(() => {
   jest.useFakeTimers();
+  jest
+    .spyOn(firebase, 'onAuthStateChanged')
+    .mockImplementation((refreshUserCallback: (user: User | null) => void) => {
+      testGlobals.refreshUserCallback = refreshUserCallback;
+      return () => undefined;
+    });
 });
 
 describe('unauthenticated user', () => {
-  beforeEach(() => {
-    jest.spyOn(firebase, 'currentUser').mockReturnValue(null);
-  });
-
   test('user is unauthenticated', async () => {
     const {getByText} = await waitFor(async () => {
       return render(
@@ -77,12 +91,16 @@ describe('unauthenticated user', () => {
         </AuthProvider>,
       );
     });
+    triggerAuthStateChange(null);
 
     getByText('User is not logged in');
   });
 
   test('user logs in successfully', async () => {
-    jest.spyOn(firebase, 'login').mockResolvedValueOnce(testUser);
+    jest.spyOn(firebase, 'login').mockImplementation(async () => {
+      triggerAuthStateChange(testUser);
+      return Promise.resolve(undefined);
+    });
 
     const {getByText} = await waitFor(async () => {
       return render(
@@ -91,6 +109,7 @@ describe('unauthenticated user', () => {
         </AuthProvider>,
       );
     });
+    triggerAuthStateChange(null);
 
     await act(async () => {
       fireEvent.press(getByText(/Log in/i));
@@ -109,6 +128,7 @@ describe('unauthenticated user', () => {
         </AuthProvider>,
       );
     });
+    triggerAuthStateChange(null);
 
     await act(async () => {
       fireEvent.press(getByText(/Log in/i));
@@ -144,6 +164,7 @@ describe('unauthenticated user', () => {
         </AuthProvider>,
       );
     });
+    triggerAuthStateChange(null);
 
     await act(async () => {
       fireEvent.press(getByText(/reset password/i));
@@ -161,6 +182,7 @@ describe('unauthenticated user', () => {
         </AuthProvider>,
       );
     });
+    triggerAuthStateChange(null);
 
     await act(async () => {
       fireEvent.press(getByText(/save password/i));
@@ -170,10 +192,6 @@ describe('unauthenticated user', () => {
 });
 
 describe('authenticated user', () => {
-  beforeEach(() => {
-    jest.spyOn(firebase, 'currentUser').mockReturnValue(testUser);
-  });
-
   test('user is authenticated', async () => {
     const {getByText} = await waitFor(async () => {
       return render(
@@ -182,12 +200,16 @@ describe('authenticated user', () => {
         </AuthProvider>,
       );
     });
+    triggerAuthStateChange(testUser);
 
     getByText(/User is logged in/);
   });
 
   test('user logs out successfully', async () => {
-    jest.spyOn(firebase, 'logout').mockResolvedValue(undefined);
+    jest.spyOn(firebase, 'logout').mockImplementation(async () => {
+      triggerAuthStateChange(null);
+      return Promise.resolve(undefined);
+    });
 
     const {getByText} = await waitFor(async () => {
       return render(
@@ -196,6 +218,7 @@ describe('authenticated user', () => {
         </AuthProvider>,
       );
     });
+    triggerAuthStateChange(testUser);
 
     await act(async () => {
       fireEvent.press(getByText(/Log out/));

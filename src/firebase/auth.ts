@@ -2,28 +2,26 @@ import auth from '@react-native-firebase/auth';
 import {pick} from 'lodash';
 import {User} from '@app/auth/types';
 
-export function currentUser(): User | null {
-  const user = auth().currentUser;
-  return user
-    ? pick(user, [
-        'uid',
-        'email',
-        'displayName',
-        'phoneNumber',
-        'emailVerified',
-      ])
-    : null;
+export function onAuthStateChanged(
+  refreshUserCallback: (user: User | null) => void,
+) {
+  return auth().onAuthStateChanged(user => {
+    refreshUserCallback(
+      user
+        ? pick(user, [
+            'uid',
+            'email',
+            'displayName',
+            'phoneNumber',
+            'emailVerified',
+          ])
+        : null,
+    );
+  });
 }
 
-export async function login(email: string, password: string): Promise<User> {
-  const {user} = await auth().signInWithEmailAndPassword(email, password);
-  return pick(user, [
-    'uid',
-    'email',
-    'displayName',
-    'phoneNumber',
-    'emailVerified',
-  ]);
+export async function login(email: string, password: string) {
+  await auth().signInWithEmailAndPassword(email, password);
 }
 
 export async function logout() {

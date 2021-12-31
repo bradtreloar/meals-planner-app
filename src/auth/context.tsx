@@ -6,7 +6,7 @@ export interface AuthContextState {
   isAuthenticated: boolean;
   userInitialised: boolean;
   user: User | null;
-  refreshUser: () => Promise<void>;
+  refreshUser: (currentUser: User | null) => void;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   forgotPassword: (email: string) => Promise<void>;
@@ -44,10 +44,13 @@ export const AuthProvider: React.FC = ({children}) => {
   /**
    * Refreshes the user from the server.
    */
-  const refreshUser = useCallback(async () => {
-    const currentUser = firebaseAuth.currentUser();
-    setUser(currentUser);
-  }, [setUser]);
+  const refreshUser = useCallback(
+    (currentUser: User | null) => {
+      setUser(currentUser);
+      setUserInitialised(true);
+    },
+    [setUser],
+  );
 
   /**
    * Authenticates the user.
@@ -57,23 +60,10 @@ export const AuthProvider: React.FC = ({children}) => {
    */
   const login = async (email: string, password: string) => {
     try {
-      const loggedInUser = await firebaseAuth.login(email, password);
-      setUser(loggedInUser);
+      await firebaseAuth.login(email, password);
     } catch (error: any) {
-      if (error.response) {
-        const {status} = error.response;
-        if (status === 422) {
-          throw new Error('Unrecognized email or password.');
-        } else if (status === 403) {
-          setUserInitialised(false);
-          throw new Error('User is already logged in.');
-        } else {
-          console.error(error);
-          throw new Error('Unable to log in. An error has occurred.');
-        }
-      } else {
-        throw error;
-      }
+      setAuthError(error);
+      throw error;
     }
   };
 
@@ -83,11 +73,9 @@ export const AuthProvider: React.FC = ({children}) => {
   const logout = async () => {
     try {
       await firebaseAuth.logout();
-      setUser(null);
     } catch (error: any) {
-      if (error.response?.status === 403) {
-        setUserInitialised(false);
-      }
+      setAuthError(error);
+      throw error;
     }
   };
 
@@ -98,13 +86,8 @@ export const AuthProvider: React.FC = ({children}) => {
     try {
       await firebaseAuth.forgotPassword(email);
     } catch (error: any) {
-      if (error.response?.status === 422) {
-        throw new Error('Unable to find a user with that email address.');
-      }
-      if (error.response?.status === 429) {
-        throw new Error('Too many requests.');
-      }
-      throw new Error('Unable to request password reset.');
+      setAuthError(error);
+      throw error;
     }
   };
 
@@ -115,7 +98,8 @@ export const AuthProvider: React.FC = ({children}) => {
     try {
       await firebaseAuth.setPassword(password);
     } catch (error: any) {
-      throw new Error('Unable to set password.');
+      setAuthError(error);
+      throw error;
     }
   };
 
@@ -130,27 +114,18 @@ export const AuthProvider: React.FC = ({children}) => {
     try {
       await firebaseAuth.resetPassword(email, token, password);
     } catch (error: any) {
-      throw new Error('Unable to reset password.');
+      setAuthError(error);
+      throw error;
     }
   };
 
   /**
-   * Refreshes the user if uninitialised.
+   * Subscribe to changes in authentication statue
    */
   useEffect(() => {
-    if (!userInitialised) {
-      (async () => {
-        try {
-          await refreshUser();
-          setUserInitialised(true);
-        } catch (error: any) {
-          if (error.isAxiosError && error.response === undefined) {
-            setAuthError('The app has run into a problem.');
-          }
-        }
-      })();
-    }
-  }, [userInitialised, refreshUser]);
+    const unsubscribe = firebaseAuth.onAuthStateChanged(refreshUser);
+    return unsubscribe;
+  }, [refreshUser]);
 
   const value = {
     isAuthenticated,
