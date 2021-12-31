@@ -7,6 +7,7 @@ import {fakeUser} from './factory';
 import {noop} from 'lodash';
 import {User} from './types';
 import * as firebase from 'src/firebase/auth';
+import {AuthSignInError} from 'src/firebase/types';
 jest.mock('src/firebase/auth');
 
 const testUser = fakeUser();
@@ -118,8 +119,11 @@ describe('unauthenticated user', () => {
   });
 
   test('invalid user fails to log in', async () => {
-    const errorMessage = faker.random.alpha();
-    jest.spyOn(firebase, 'login').mockRejectedValue(new Error(errorMessage));
+    const firebaseError = {
+      code: 'auth/wrong-password' as AuthSignInError,
+      message: faker.random.alpha(),
+    };
+    jest.spyOn(firebase, 'login').mockRejectedValue(firebaseError);
 
     const {getByText} = await waitFor(async () => {
       return render(
@@ -133,7 +137,7 @@ describe('unauthenticated user', () => {
     await act(async () => {
       fireEvent.press(getByText(/Log in/i));
     });
-    getByText(errorMessage);
+    getByText('The email or password is incorrect.');
   });
 
   test('requests password reset', async () => {
