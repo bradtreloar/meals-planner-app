@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {colors} from '@app/common/styles/variables';
+import {colors} from 'src/common/styles/variables';
 
 const SplashScreen: React.FC = () => (
   <View style={styles.container}>

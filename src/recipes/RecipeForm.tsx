@@ -1,6 +1,6 @@
 import React from 'react';
-import useForm from '@app/common/forms/useForm';
-import TextInputWrapper from '@app/common/forms/TextInputWrapper';
+import useForm from 'src/common/forms/useForm';
+import TextInputWrapper from 'src/common/forms/TextInputWrapper';
 import {Button, View} from 'react-native';
 
 export type RecipeFormValues = {

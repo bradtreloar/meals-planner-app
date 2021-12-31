@@ -15,17 +15,17 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {DateTime, Settings as LuxonSettings} from 'luxon';
 import RecipeSelectScreen from './RecipeSelectScreen';
 import {fakeRecipe} from './factory';
-import {buildEntityState} from '@app/store/entity';
+import {buildEntityState} from 'src/store/entity';
 import recipes from './store';
 import {Recipe} from './types';
-import meals, {actions as mealActions} from '@app/meals/store';
-import {Meal} from '@app/meals/types';
-import {fakeMeal} from '@app/meals/factory';
+import meals, {actions as mealActions} from 'src/meals/store';
+import {Meal} from 'src/meals/types';
+import {fakeMeal} from 'src/meals/factory';
 import {act} from 'react-test-renderer';
 import {Button, View} from 'react-native';
-import {MealsPlannerScreenProps} from '@app/meals/MealsPlannerScreen';
-import * as firebaseDatabase from '@app/firebase/database';
-jest.mock('@app/firebase/database');
+import {MealsPlannerScreenProps} from 'src/meals/MealsPlannerScreen';
+import * as firebaseDatabase from 'src/firebase/database';
+jest.mock('src/firebase/database');
 
 const createMockStore = () =>
   configureStore({

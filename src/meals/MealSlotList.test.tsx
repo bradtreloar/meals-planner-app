@@ -6,8 +6,8 @@ import {
   waitFor,
   within,
 } from '@testing-library/react-native';
-import {fakeRecipe} from '@app/recipes/factory';
-import {fakeMeal} from '@app/meals/factory';
+import {fakeRecipe} from 'src/recipes/factory';
+import {fakeMeal} from 'src/meals/factory';
 import MealsList, {MealSlot} from './MealSlotList';
 import {DateTime, Settings as LuxonSettings} from 'luxon';
 

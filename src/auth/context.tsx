@@ -1,6 +1,6 @@
 import React, {useContext, createContext, useCallback, useEffect} from 'react';
-import * as firebaseAuth from '@app/firebase/auth';
-import {User} from '@app/auth/types';
+import * as firebaseAuth from 'src/firebase/auth';
+import {User} from 'src/auth/types';
 
 export interface AuthContextState {
   isAuthenticated: boolean;

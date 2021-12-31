@@ -6,8 +6,8 @@ import {AuthProvider, useAuth} from './context';
 import {fakeUser} from './factory';
 import {noop} from 'lodash';
 import {User} from './types';
-import * as firebase from '@app/firebase/auth';
-jest.mock('@app/firebase/auth');
+import * as firebase from 'src/firebase/auth';
+jest.mock('src/firebase/auth');
 
 const testUser = fakeUser();
 const testPassword = faker.random.alphaNumeric();

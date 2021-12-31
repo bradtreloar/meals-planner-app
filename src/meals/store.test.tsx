@@ -1,16 +1,16 @@
 import {configureStore} from '@reduxjs/toolkit';
 import meals, {actions as recipeActions} from './store';
 import {Meal} from './types';
-import * as firebaseDatabase from '@app/firebase/database';
+import * as firebaseDatabase from 'src/firebase/database';
 import {fakeMeal} from './factory';
 import {range} from 'lodash';
-import {buildEntityState} from '@app/store/entity';
+import {buildEntityState} from 'src/store/entity';
 import React, {useEffect} from 'react';
 import {Provider} from 'react-redux';
-import {useThunkDispatch} from '@app/store/createStore';
+import {useThunkDispatch} from 'src/store/createStore';
 import {render, waitFor} from '@testing-library/react-native';
-import {fakeRecipe} from '@app/recipes/factory';
-jest.mock('@app/firebase/database');
+import {fakeRecipe} from 'src/recipes/factory';
+jest.mock('src/firebase/database');
 
 const createMockStore = () =>
   configureStore({

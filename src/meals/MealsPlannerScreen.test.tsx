@@ -7,14 +7,14 @@ import {Text, View} from 'react-native';
 import {DateTime, Settings as LuxonSettings} from 'luxon';
 import {range, values} from 'lodash';
 import {fireEvent, render, waitFor} from '@testing-library/react-native';
-import {buildEntityState} from '@app/store/entity';
-import meals, {actions as mealActions} from '@app/meals/store';
-import recipes from '@app/recipes/store';
-import {Meal} from '@app/meals/types';
-import {fakeMeal} from '@app/meals/factory';
-import MealsPlannerScreen from '@app/meals/MealsPlannerScreen';
-import {fakeRecipe} from '@app/recipes/factory';
-import {RecipeSelectScreenProps} from '@app/recipes/RecipeSelectScreen';
+import {buildEntityState} from 'src/store/entity';
+import meals, {actions as mealActions} from 'src/meals/store';
+import recipes from 'src/recipes/store';
+import {Meal} from 'src/meals/types';
+import {fakeMeal} from 'src/meals/factory';
+import MealsPlannerScreen from 'src/meals/MealsPlannerScreen';
+import {fakeRecipe} from 'src/recipes/factory';
+import {RecipeSelectScreenProps} from 'src/recipes/RecipeSelectScreen';
 import {act} from 'react-test-renderer';
 
 const createMockStore = () =>

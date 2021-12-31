@@ -1,7 +1,7 @@
 import {configureStore} from '@reduxjs/toolkit';
 import {useDispatch} from 'react-redux';
-import recipes from '@app/recipes/store';
-import meals from '@app/meals/store';
+import recipes from 'src/recipes/store';
+import meals from 'src/meals/store';
 
 export const entityReducers = {
   recipes,

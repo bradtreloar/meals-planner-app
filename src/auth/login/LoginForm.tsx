@@ -1,9 +1,9 @@
 import React from 'react';
 import * as EmailValidator from 'email-validator';
-import useForm from '@app/common/forms/useForm';
-import TextInputWrapper from '@app/common/forms/TextInputWrapper';
-import FormContainer from '@app/common/forms/FormContainer';
-import SubmitButton from '@app/common/forms/SubmitButton';
+import useForm from 'src/common/forms/useForm';
+import TextInputWrapper from 'src/common/forms/TextInputWrapper';
+import FormContainer from 'src/common/forms/FormContainer';
+import SubmitButton from 'src/common/forms/SubmitButton';
 
 export type LoginFormValues = {
   email: string;

@@ -1,5 +1,5 @@
-import {createEntitySlice} from '@app/store/entity';
-import {EntityState} from '@app/store/types';
+import {createEntitySlice} from 'src/store/entity';
+import {EntityState} from 'src/store/types';
 import {Meal, MealAttributes} from './types';
 
 const {reducer, actions} = createEntitySlice<MealAttributes>('meals');

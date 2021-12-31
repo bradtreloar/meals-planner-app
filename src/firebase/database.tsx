@@ -1,5 +1,5 @@
 import database from '@react-native-firebase/database';
-import {EntityType} from '@app/store/types';
+import {EntityType} from 'src/store/types';
 import {DateTime} from 'luxon';
 
 export async function addEntity<A>(entityType: string, attributes: A) {

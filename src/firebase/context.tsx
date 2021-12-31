@@ -1,7 +1,7 @@
 import React, {createContext, useCallback, useEffect} from 'react';
-import {entityReducers, useThunkDispatch} from '@app/store/createStore';
+import {entityReducers, useThunkDispatch} from 'src/store/createStore';
 import database, {FirebaseDatabaseTypes} from '@react-native-firebase/database';
-import {useAuth} from '@app/auth/context';
+import {useAuth} from 'src/auth/context';
 
 export interface FirebaseContextState {}
 

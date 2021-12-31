@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {colors} from '@app/common/styles/variables';
+import {colors} from 'src/common/styles/variables';
 
 export const feedbackStyles = StyleSheet.create({
   valid: {

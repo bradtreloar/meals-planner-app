@@ -1,6 +1,6 @@
 import auth from '@react-native-firebase/auth';
 import {pick} from 'lodash';
-import {User} from '@app/auth/types';
+import {User} from 'src/auth/types';
 
 export function onAuthStateChanged(
   refreshUserCallback: (user: User | null) => void,

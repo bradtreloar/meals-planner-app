@@ -1,10 +1,10 @@
 import React from 'react';
-import useFormController from '@app/common/forms/useFormController';
+import useFormController from 'src/common/forms/useFormController';
 import {View, Text, StyleSheet} from 'react-native';
 import {useAuth} from '../context';
 import LoginForm, {LoginFormValues} from './LoginForm';
 import {NavigationStackScreenProps} from 'react-navigation-stack';
-import {feedbackStyles} from '@app/common/forms/styles';
+import {feedbackStyles} from 'src/common/forms/styles';
 
 const LoginScreen: React.FC<NavigationStackScreenProps> = () => {
   const {login} = useAuth();

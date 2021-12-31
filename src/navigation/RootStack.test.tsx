@@ -3,8 +3,8 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import RootStack from './RootStack';
 import {render, waitFor} from '@testing-library/react-native';
-import {AuthContext} from '@app/auth/context';
-import {fakeAuthContextState, fakeUser} from '@app/auth/factory';
+import {AuthContext} from 'src/auth/context';
+import {fakeAuthContextState, fakeUser} from 'src/auth/factory';
 
 it('shows the LoginScreen when user is not authenticated', async () => {
   const testStackNavigator = createNativeStackNavigator();

@@ -1,10 +1,10 @@
 import React from 'react';
 import {waitFor, render, act} from '@testing-library/react-native';
 import App from './App';
-import * as firebase from '@app/firebase/auth';
+import * as firebase from 'src/firebase/auth';
 import {noop} from 'lodash';
 import {User} from './auth/types';
-jest.mock('@app/firebase/auth');
+jest.mock('src/firebase/auth');
 
 let testGlobals = {
   refreshUserCallback: noop as (user: User | null) => void,

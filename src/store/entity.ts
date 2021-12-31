@@ -1,4 +1,4 @@
-import {addEntity, deleteEntity, updateEntity} from '@app/firebase/database';
+import {addEntity, deleteEntity, updateEntity} from 'src/firebase/database';
 import {
   ActionReducerMapBuilder,
   createAsyncThunk,

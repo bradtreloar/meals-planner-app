@@ -2,9 +2,9 @@ import {configureStore} from '@reduxjs/toolkit';
 import faker from 'faker';
 import {range, values} from 'lodash';
 import {createEntitySlice, emptyEntityState} from './entity';
-import * as firebaseDatabase from '@app/firebase/database';
+import * as firebaseDatabase from 'src/firebase/database';
 import {EntityState, EntityStateData, EntityType} from './types';
-jest.mock('@app/firebase/database');
+jest.mock('src/firebase/database');
 
 interface MockEntityAttributes {
   title: string;

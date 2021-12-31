@@ -1,4 +1,4 @@
-import {EntityType} from '@app/store/types';
+import {EntityType} from 'src/store/types';
 
 export interface MealAttributes {
   date: string;

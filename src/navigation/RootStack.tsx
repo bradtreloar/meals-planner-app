@@ -1,9 +1,9 @@
 import React from 'react';
 import {DateTime} from 'luxon';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import LoginScreen from '@app/auth/login/LoginScreen';
-import HomeScreen from '@app/home/HomeScreen';
-import {useAuth} from '@app/auth/context';
+import LoginScreen from 'src/auth/login/LoginScreen';
+import HomeScreen from 'src/home/HomeScreen';
+import {useAuth} from 'src/auth/context';
 
 export type RootStackParamList = {
   MealsPlanner: {};

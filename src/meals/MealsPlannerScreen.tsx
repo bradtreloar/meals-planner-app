@@ -1,16 +1,16 @@
 import React, {useMemo, useState} from 'react';
-import {RootStackParamList} from '@app/navigation/RootStack';
+import {RootStackParamList} from 'src/navigation/RootStack';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {DateTime} from 'luxon';
 import {View} from 'react-native';
 import {useSelector} from 'react-redux';
 import {range, values} from 'lodash';
-import MealSlotList, {MealSlot} from '@app/meals/MealSlotList';
-import {selectMeals, actions as mealActions} from '@app/meals/store';
-import {Meal} from '@app/meals/types';
-import WeekSelect from '@app/meals/WeekSelect';
-import {selectRecipes} from '@app/recipes/store';
-import {useThunkDispatch} from '@app/store/createStore';
+import MealSlotList, {MealSlot} from 'src/meals/MealSlotList';
+import {selectMeals, actions as mealActions} from 'src/meals/store';
+import {Meal} from 'src/meals/types';
+import WeekSelect from 'src/meals/WeekSelect';
+import {selectRecipes} from 'src/recipes/store';
+import {useThunkDispatch} from 'src/store/createStore';
 
 export interface MealsPlannerScreenProps
   extends NativeStackScreenProps<RootStackParamList, 'MealsPlanner'> {}

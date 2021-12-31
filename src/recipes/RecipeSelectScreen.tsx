@@ -1,16 +1,16 @@
 import React, {useMemo, useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import RecipesList from './RecipesList';
-import FloatingButton from '@app/common/FloatingButton';
+import FloatingButton from 'src/common/FloatingButton';
 import {useSelector} from 'react-redux';
 import {selectRecipes, actions as recipeActions} from './store';
 import {Recipe} from './types';
-import {EntityState} from '@app/store/types';
+import {EntityState} from 'src/store/types';
 import {merge, orderBy, values} from 'lodash';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {useThunkDispatch} from '@app/store/createStore';
-import {actions as mealActions} from '@app/meals/store';
-import {RootStackParamList} from '@app/navigation/RootStack';
+import {useThunkDispatch} from 'src/store/createStore';
+import {actions as mealActions} from 'src/meals/store';
+import {RootStackParamList} from 'src/navigation/RootStack';
 import RecipeModal from './RecipeModal';
 import {RecipeFormValues} from './RecipeForm';
 

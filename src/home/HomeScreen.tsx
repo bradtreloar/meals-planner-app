@@ -1,4 +1,4 @@
-import {useAuth} from '@app/auth/context';
+import {useAuth} from 'src/auth/context';
 import * as React from 'react';
 import {View, Text, StyleSheet, Button} from 'react-native';
 import {NavigationStackScreenProps} from 'react-navigation-stack';
